@@ -1,0 +1,96 @@
+[tool.poetry]
+name = "csp0"
+version = "0.0.0"
+description = "chat side project type 0"
+authors = ["DPR <dpr-0xff@pm.me>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+tortoise-orm = {extras = ["asyncpg"], version = "^0.20.0"}
+pyjwt = {extras = ["crypto"], version = "^2.8.0"}
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+fastapi = "^0.103.2"
+redis = {extras = ["hiredis"], version = "^5.0.1"}
+pydantic-settings = "^2.0.3"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.1"
+ruff = "^0.1.5"
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-asyncio = "^0.21.1"
+pre-commit = "^3.3.3"
+aerich = "^0.7.2"
+testcontainers-postgres = "^0.0.1rc1"
+testcontainers-redis = "^0.0.1rc1"
+commitizen = "^3.7.0"
+httpx = "^0.25.0"
+types-redis = "^4.6.0.7"
+asgi-lifespan = "^2.1.0"
+asyncpg-stubs = "^0.28.0"
+
+[tool.aerich]
+tortoise_orm = "db.settings.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./."
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+
+)
+'''
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore:::tortoise.contrib.test"]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+    ]
+
+[tool.commitizen]
+update_changelog_on_bump = true
+version_provider = "poetry"
