@@ -4,24 +4,36 @@
 [![Docker build](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml)
 [![codecov](https://codecov.io/gh/dpr-0/csp0/graph/badge.svg?token=D3D2ST9HDG)](https://codecov.io/gh/dpr-0/csp0)
 
-This is my chat side project type-0 backend code.
+This is my chat side project type-0: A Random Chat system implemented by FastAPI.
 
-## Devlopment Environment
+Implemented features:
+
+1. JWT authentication
+1. User registration
+1. User match a random user and unmatch (Redis set)
+1. User send and recieve message (Redis stream)
+1. User recieve notification (Redis stream)
+
+This project are implemented base on:
+
+1. Clean architecture and Domain-Drvien Design concept
+1. Message bus
+
+## Setup Devlopment Environment
+
+### Docker Compose
 
 ```shell
 make dc
-make initdb
-make migrate
-make run
 ```
 
-### Create .env
+### Create .env file
 
 Gen RSA Key pair
 
 ```shell
-openssl genrsa -out key.pem 2048
-openssl rsa -in key.pem -pubout -out public.pem
+openssl genrsa -out private.pem 2048
+openssl rsa -in private.pem -pubout -out public.pem
 ```
 
 paste them to .env
@@ -29,9 +41,28 @@ paste them to .env
 ```text
 DATABASE_DSN=postgres://postgres:Sfj39w@127.0.0.1:5432/postgres
 REDIS_DSN=redis://localhost:6379?decode_responses=True
-JWT_LIFETIME=15
 PUBLIC_KEY="here"
 PRIVATE_KEY="here"
+```
+
+### Poetry
+
+```shell
+poetry install
+```
+
+### Local Run Server
+
+Create DB schema (first time)
+
+```shell
+aerich upgrade
+```
+
+Run Server
+
+```shell
+make run
 ```
 
 ## Test
