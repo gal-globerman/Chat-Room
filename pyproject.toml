@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "csp0"
-version = "0.1.0a0"
+version = "0.1.0a1"
 description = "chat side project type 0"
 authors = ["DPR <dpr-0xff@pm.me>"]
 license = "MIT"
