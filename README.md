@@ -4,7 +4,7 @@
 [![Docker build](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml)
 [![codecov](https://codecov.io/gh/dpr-0/csp0/graph/badge.svg?token=D3D2ST9HDG)](https://codecov.io/gh/dpr-0/csp0)
 
-This is my chat side project type-0: A Random Chat system implemented by FastAPI.
+This is my chat side project type-0: A Random Chat Room implemented by FastAPI.
 
 Implemented features:
 
@@ -18,6 +18,12 @@ This project are implemented base on:
 
 1. Clean architecture and Domain-Drvien Design concept
 1. Message bus
+
+## Demo
+
+
+https://github.com/dpr-0/csp0/assets/75435041/b4ea6bb6-a2b4-4a36-b00c-98bc255d5636
+
 
 ## Setup Devlopment Environment
 
