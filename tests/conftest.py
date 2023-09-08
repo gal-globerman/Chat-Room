@@ -3,7 +3,7 @@ import contextlib
 import gc
 import socket
 from collections import namedtuple
-from datetime import datetime
+from datetime import UTC, datetime
 from functools import cache
 from typing import Any, AsyncGenerator, Generator, List, Tuple
 from unittest.mock import patch
@@ -190,7 +190,7 @@ async def alice_in_db(
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         alice.id,
         alice.secret.get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     return alice
 
@@ -202,7 +202,7 @@ async def bob_in_db(db_conn: asyncpg.Connection) -> entities.User:
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         bob.id,
         bob.secret.get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     return bob
 
@@ -214,7 +214,7 @@ async def mallory_in_db(db_conn: asyncpg.Connection) -> entities.User:
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         mallory.id,
         mallory.secret.get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     return mallory
 
@@ -230,14 +230,14 @@ async def thread_of_alice_and_bob(
         await db_conn.execute(
             "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
             thread.id,
-            datetime.utcnow(),
+            datetime.now(UTC),
         )
         for user_id, _ in thread.members.items():
             await db_conn.execute(
                 "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
                 thread.id,
                 user_id,
-                datetime.utcnow(),
+                datetime.now(UTC),
                 True,
             )
     return thread

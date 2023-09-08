@@ -1,6 +1,6 @@
 import asyncio
 import time
-from datetime import datetime
+from datetime import UTC, datetime
 from unittest import mock
 
 import pytest
@@ -321,7 +321,7 @@ async def test_user_listen_messages_but_not_join(
     redis_conn: Redis,
 ):
     offsets = {
-        str(thread_of_alice_and_bob.id): int(datetime.utcnow().timestamp() * 1000)
+        str(thread_of_alice_and_bob.id): int(datetime.now(UTC).timestamp() * 1000)
     }
     listener = streams.Stream(redis_conn)
     listener.set_offsets(offsets)

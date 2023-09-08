@@ -1,7 +1,7 @@
 import asyncio
 import json
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from unittest.mock import MagicMock, patch
 from uuid import UUID
 
@@ -34,7 +34,7 @@ async def test_aquire_jwt_token(client: AsyncClient, db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         "Bob",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
 
     resp = await client.post("/tokens", json={"secret": "asdf"})
@@ -50,7 +50,7 @@ async def test_aquire_jwt_token_but_incorrect_password(
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         "Bob",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
 
     resp = await client.post("/tokens", json={"secret": "xxx"})

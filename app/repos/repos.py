@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional, Set
 
 from asyncpg import Connection
@@ -20,7 +20,7 @@ class UserRepository:
                 """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
                 user.id,
                 user.secret.get_secret_value(),
-                datetime.utcnow(),
+                datetime.now(UTC),
             )
         except PostgresError as e:
             raise exceptions.RepositoryError(e) from e
@@ -62,14 +62,14 @@ class ThreadRepository:
             await self.conn.execute(
                 "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
                 thread.id,
-                datetime.utcnow(),
+                datetime.now(UTC),
             )
             for user_id, _ in thread.members.items():
                 await self.conn.execute(
                     "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
                     thread.id,
                     user_id,
-                    datetime.utcnow(),
+                    datetime.now(UTC),
                     thread.active,
                 )
 

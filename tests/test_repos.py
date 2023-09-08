@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 import pytest
 from asyncpg import Connection
@@ -25,7 +25,7 @@ async def test_add_existing_user(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         user.id,
         user.secret.get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
 
     with pytest.raises(repos.exceptions.RepositoryError):
@@ -37,7 +37,7 @@ async def test_get_user(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         "alice",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     repo = repos.UserRepository(db_conn)
     user = await repo.get("alice")
@@ -49,7 +49,7 @@ async def test_get_user_but_inactive(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at, active) VALUES($1, $2, $3, $4)""",
         "alice",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
         False,
     )
     repo = repos.UserRepository(db_conn)
@@ -67,7 +67,7 @@ async def test_get_user_by_secret(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         "alice",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     repo = repos.UserRepository(db_conn)
 
@@ -79,7 +79,7 @@ async def test_get_user_by_secret_but_not_found(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         "abc",
         "asdf",
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     repo = repos.UserRepository(db_conn)
 
@@ -93,7 +93,7 @@ async def test_add_new_thread(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         alice.id,
         alice.secret.get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     thread = entities.Thread()
     thread.join(alice.id)
@@ -112,20 +112,20 @@ async def test_get_thread(db_conn: Connection):
     await db_conn.execute(
         "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
         thread_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     for user_id in [str(i) for i in range(2)]:
         await db_conn.execute(
             """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
             user_id,
             entities.create_secret().get_secret_value(),
-            datetime.utcnow(),
+            datetime.now(UTC),
         )
         await db_conn.execute(
             "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
             thread_id,
             user_id,
-            datetime.utcnow(),
+            datetime.now(UTC),
             True,
         )
     repo = repos.ThreadRepository(db_conn)
@@ -144,19 +144,19 @@ async def test_list_ids_user_room(db_conn: Connection):
     await db_conn.execute(
         "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
         thread_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         user_id,
         entities.create_secret().get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
         thread_id,
         user_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
         True,
     )
     repo = repos.RoomRepository(db_conn)
@@ -169,7 +169,7 @@ async def test_list_ids_user_room_but_empty(db_conn: Connection):
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         user_id,
         entities.create_secret().get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     repo = repos.RoomRepository(db_conn)
     assert await repo.list_ids(user_id) == []
@@ -181,19 +181,19 @@ async def test_delete_user_room(db_conn: Connection):
     await db_conn.execute(
         "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
         thread_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         user_id,
         entities.create_secret().get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
         thread_id,
         user_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
         True,
     )
     repo = repos.RoomRepository(db_conn)
@@ -214,19 +214,19 @@ async def test_user_room_exist(db_conn: Connection):
     await db_conn.execute(
         "INSERT INTO public.thread(id, created_at) VALUES($1, $2)",
         thread_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         """INSERT INTO public.user(id, secret, created_at) VALUES($1, $2, $3)""",
         user_id,
         entities.create_secret().get_secret_value(),
-        datetime.utcnow(),
+        datetime.now(UTC),
     )
     await db_conn.execute(
         "INSERT INTO public.room(thread_id, user_id, created_at, active) VALUES($1, $2, $3, $4)",
         thread_id,
         user_id,
-        datetime.utcnow(),
+        datetime.now(UTC),
         True,
     )
     repo = repos.RoomRepository(db_conn)

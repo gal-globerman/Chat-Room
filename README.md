@@ -1,11 +1,6 @@
-# csp0
+# Chat Side Project
 
-![GitHub release (with filter)](https://img.shields.io/github/v/release/dpr-0/csp0)
-[![Docker build](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml/badge.svg)](https://github.com/dpr-0/csp0/actions/workflows/dockerbuild.yml)
-[![codecov](https://codecov.io/gh/dpr-0/csp0/graph/badge.svg?token=D3D2ST9HDG)](https://codecov.io/gh/dpr-0/csp0)
-[![Test](https://github.com/dpr-0/csp0/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/dpr-0/csp0/actions/workflows/python-app.yml)
-
-This is my chat side project type-0: A Random Chat Room implemented by FastAPI.
+This is my Chat side project, implemented in FastAPI
 
 Implemented features:
 
@@ -22,7 +17,7 @@ This project are implemented base on:
 
 ## Demo
 
-<https://github.com/dpr-0/csp0/assets/75435041/b4ea6bb6-a2b4-4a36-b00c-98bc255d5636>
+<https://github.com/user-attachments/assets/438261df-2411-4233-aa10-0131b1aeb2e8>
 
 ## Setup Devlopment Environment
 
@@ -75,11 +70,6 @@ make run
 ```shell
 make test
 ```
-
-### Test Coverage
-
-[![codecov](https://codecov.io/gh/dpr-0/csp0/graph/badge.svg?token=D3D2ST9HDG)](https://codecov.io/gh/dpr-0/csp0)
-[![codecov](https://codecov.io/gh/dpr-0/csp0/graphs/icicle.svg?token=D3D2ST9HDG)](https://codecov.io/gh/dpr-0/csp0)
 
 ## If use Minimal container vm
 

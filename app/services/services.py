@@ -1,6 +1,6 @@
 import abc
 import json
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import AsyncIterator, List, Set
 
 import jwt
@@ -55,7 +55,7 @@ def _create_token(
     user_id: types.UserID | str, private_key: SecretStr, exp: float
 ) -> str:
     encoded = jwt.encode(
-        {"exp": datetime.utcnow() + timedelta(seconds=exp), "id": user_id},
+        {"exp": datetime.now(UTC) + timedelta(seconds=exp), "id": user_id},
         private_key.get_secret_value(),
         algorithm="RS256",
     )
